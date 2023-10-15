@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f1f1;
+            font-size: 150%;
+            /*display: flex;*/
+            /*justify-content: space-evenly;*/
+            /*gap: 4px;*/
+            /*margin: 50px 4px;*/
+            margin: 0;
+            padding: 0;
+            /*width: 100%;*/
+            /*height: 100%;*/
+        }
+
+        .flex-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            gap: 4px;
+            margin: 50px 4px;
+            padding: 0;
+        }
+
+        .menu {
+            /*max-width: 600px;*/
+            margin: 0 auto 20px;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            /*z-index: 5;*/
+        }
+
+        .menu-item {
+            padding: 20px;
+            border-bottom: 1px solid #f1f1f1;
+            color: #6a6a6a;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item h4 {
+            margin: 0;
+            color: #333;
+            display: inline-block; /* Make title inline */
+        }
+
+        .menu-item p {
+            margin: 5px 0 0;
+        }
+
+        .highlight {
+            background: #f8e9bd;
+        }
+
+        .highlight h4, .highlight p {
+            font-size: 1.2em;
+            color: #405d27;
+        }
+
+        .date {
+            font-size: 0.8em;
+            margin-left: 10px;
+            color: #888;
+        }
+
+        .highlight .date {
+            font-size: 1em;
+            color: #405d27;
+        }
+    </style>
+    <link href="rain.css" rel="stylesheet"/>
+    <title>Justice Dashboard</title>
+</head>
+<body>
+<div id="rainy"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+<script src="rain.js"></script>
+
+<div class="flex-container">
+
+    <div id="col1" class="column">
+        <div id="menu-container"></div>
+    </div>
+    <div id="col2" class="column">
+        <div id="countdown-container"></div>
+
+        <div id="weather-container">
+            <img id="weather-image" src="" alt="vejrgraf">
+        </div>
+    </div>
+
+</div>
+
+<script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.2/build/global/luxon.min.js "></script>
+<!--<script src="./data/menu.js"></script>-->
+<script>
+    const DateTime = luxon.DateTime;
+    const weatherImageUrl = 'https://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=5000&mode=long&eps=true';
+    const menuContainer = document.getElementById('menu-container');
+
+    function updateMenus() {
+        menuContainer.innerHTML = '';
+        let currentMenuWeek = document.createElement('div');
+        currentMenuWeek.classList.add('menu');
+        menuContainer.append(currentMenuWeek);
+
+        fetch('/data/menu.json').then(res => res.json()).then(menu => {
+            let weekNumber = DateTime.fromISO(menu[0].date).weekNumber;
+            menu.forEach(menuItem => {
+                const foodDate = DateTime.fromISO(menuItem.date).setLocale('da-dk');
+
+                if (foodDate.weekNumber !== weekNumber) {
+                    currentMenuWeek = document.createElement('div');
+                    currentMenuWeek.classList.add('menu');
+                    menuContainer.append(currentMenuWeek);
+                    weekNumber = foodDate.weekNumber;
+                }
+
+                const outerDiv = document.createElement('div');
+                outerDiv.classList.add('menu-item');
+
+                const titleCapitalized =
+                    menuItem.day.charAt(0).toUpperCase()
+                    + menuItem.day.slice(1);
+
+                const title = document.createElement('h4');
+                title.innerHTML = titleCapitalized + ' ';
+
+                const description = document.createElement('p');
+                description.innerHTML = menuItem.foodName;
+
+                const date = document.createElement('span');
+                date.classList.add('date');
+                date.innerText = foodDate.toFormat('dd/MM');
+                title.append(date);
+
+                if (foodDate.hasSame(DateTime.now(), 'day')) {
+                    outerDiv.classList.add('highlight');
+                }
+
+                outerDiv.append(title);
+                outerDiv.append(description);
+                currentMenuWeek.append(outerDiv);
+            });
+        });
+    }
+
+    updateMenus();
+    setInterval(updateMenus, 28800000);
+    // setInterval(updateMenus, 4000);
+
+    function countdown() {
+        const now = DateTime.now().setLocale('da-dk');
+        let thursday;
+
+        if (now.weekday < 4) {
+            // Before Thursday, get the same week's Thursday
+            thursday = now.set({weekday: 4, hour: 9, minute: 45, second: 0});
+        } else if (now.weekday === 4 && now < now.set({hour: 12, minute: 0, second: 0})) {
+            // It's Thursday but before 9.45, no need to change the date.
+            thursday = now.set({hour: 9, minute: 45, second: 0});
+        } else {
+            // After Thursday or past 12.00, get next week's Thursday.
+            thursday = now.plus({weeks: 1}).set({weekday: 4, hour: 9, minute: 45, second: 0});
+        }
+
+        const diff = thursday.diff(now, ['days', 'hours', 'minutes', 'seconds']);
+
+        let countdownContainer = document.getElementById('countdown-container');
+        let title = document.getElementById('countdown-title');
+        let description = document.getElementById('countdown-description');
+        if (!title) {
+            const countdown = document.createElement('div');
+            countdown.classList.add('menu');
+            countdown.id = 'countdown';
+
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('menu-item');
+
+            title = document.createElement('h4');
+            title.innerHTML = 'Brunner';
+            title.id = 'countdown-title';
+
+            description = document.createElement('p');
+            description.id = 'countdown-description';
+
+            wrapper.append(title, description);
+            countdown.append(wrapper);
+
+            countdownContainer.append(countdown);
+        }
+
+        if (diff.toMillis() < 0) {
+            description.innerText = 'Brunneren er serveret!';
+        } else {
+            let textToShow = '';
+
+            if (diff.days > 0) {
+                textToShow += `${Math.floor(diff.days)} dage, `;
+            }
+            if (diff.hours > 0 || diff.days > 0) {
+                textToShow += `${Math.floor(diff.hours)} timer, `;
+            }
+            if (diff.minutes > 0 || diff.days > 0 || diff.hours > 0) {
+                textToShow += `${Math.floor(diff.minutes)} minutter, `;
+            }
+            textToShow += `${Math.floor(diff.seconds)} sekunder!`;
+            description.innerText = textToShow;
+        }
+    }
+
+    // Call countdown function initially and then every second
+    countdown();
+    setInterval(countdown, 1000);
+
+    const weatherImage = document.getElementById('weather-image');
+
+    function updateWeatherImage() {
+        console.log('Updating weather...');
+        weatherImage.src = `${weatherImageUrl}&t=${Math.floor(new Date().getTime() / 1000)}`;
+
+        const now = DateTime.now().setLocale('da-dk');
+        const nextHour = now.plus({hours: 1}).set({minute: 5, second: 0});
+        const diffInMillis = nextHour.diff(now, 'milliseconds');
+
+        setTimeout(updateWeatherImage, diffInMillis.milliseconds);
+    }
+
+    updateWeatherImage();
+    // setInterval(updateWeatherImage, 1800000);
+</script>
+</body>
+</html>
