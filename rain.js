@@ -64,7 +64,7 @@ function Drop() {
 }
 
 function checkForRain() {
-    fetch('/data/rain.json').then(res => res.json()).then(rainData => {
+    fetch('/data/rain.json', {cache: "reload"}).then(res => res.json()).then(rainData => {
         const rainValue = rainData.rainValue;
         console.log('rainValue', rainValue);
         if (rainValue > 0.2) {
