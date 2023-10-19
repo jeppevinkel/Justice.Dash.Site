@@ -1,5 +1,6 @@
 const rain = [];
 let isEnabled = false;
+let rainIntensity = 0.3;
 
 function toggleRain(enable = true) {
     isEnabled = enable;
@@ -44,14 +45,14 @@ function Drop() {
         this.yspeed = this.yspeed + grav;
 
         if (this.y > height) {
-            this.y = random(-200, -100);
-            this.yspeed = map(this.z, 0, 5, 4, 10);
+            this.reset();
         }
     };
 
     this.reset = function () {
+        this.x = random(width);
         this.y = random(-200, -100);
-        this.yspeed = map(this.z, 0, 20, 4, 10);
+        this.yspeed = map(this.z, 0, 5, 4, 10 * (1+(rainIntensity/2)));
     };
 
     this.show = function () {
@@ -68,6 +69,7 @@ function checkForRain() {
         const rainValue = rainData.rainValue;
         console.log('rainValue', rainValue);
         if (rainValue > 0.2) {
+            rainIntensity = rainValue;
             toggleRain();
         } else toggleRain(false);
     });
