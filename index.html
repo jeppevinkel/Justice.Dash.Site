@@ -121,7 +121,7 @@
         currentMenuWeek.classList.add('menu');
         menuContainer.append(currentMenuWeek);
 
-        fetch('/data/menu.json').then(res => res.json()).then(menu => {
+        fetch('/data/menu.json', {cache: "reload"}).then(res => res.json()).then(menu => {
             let weekNumber = DateTime.fromISO(menu[0].date).weekNumber;
             menu.forEach(menuItem => {
                 const foodDate = DateTime.fromISO(menuItem.date).setLocale('da-dk');
