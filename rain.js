@@ -68,7 +68,7 @@ function checkForRain() {
     fetch('/data/rain.json', {cache: "reload"}).then(res => res.json()).then(rainData => {
         const rainValue = rainData.rainValue;
         console.log('rainValue', rainValue);
-        if (rainValue > 0.2) {
+        if (rainValue > 0.1) {
             rainIntensity = rainValue;
             toggleRain();
         } else toggleRain(false);
