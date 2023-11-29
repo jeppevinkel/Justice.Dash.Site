@@ -109,7 +109,7 @@
 </div>
 
 <script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.2/build/global/luxon.min.js "></script>
-<!--<script src="./data/menu.js"></script>-->
+<script src="./data/menu.js"></script>
 <script>
     const DateTime = luxon.DateTime;
     const weatherImageUrl = 'https://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=5000&mode=long&eps=true';
@@ -121,10 +121,13 @@
         currentMenuWeek.classList.add('menu');
         menuContainer.append(currentMenuWeek);
 
-        fetch('/data/menu.json', {cache: "reload"}).then(res => res.json()).then(menu => {
+        // fetch('/data/menu.json', {cache: "reload"}).then(res => res.json()).then(menu => {
             let weekNumber = DateTime.fromISO(menu[0].date).weekNumber;
+            let totalItems = 0;
             menu.forEach(menuItem => {
                 const foodDate = DateTime.fromISO(menuItem.date).setLocale('da-dk');
+                if (foodDate.startOf("day") < DateTime.now().startOf('day')) return;
+                if (++totalItems > 5) return;
 
                 if (foodDate.weekNumber !== weekNumber) {
                     currentMenuWeek = document.createElement('div');
@@ -159,7 +162,7 @@
                 outerDiv.append(description);
                 currentMenuWeek.append(outerDiv);
             });
-        });
+        // });
     }
 
     updateMenus();
