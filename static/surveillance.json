@@ -1,0 +1,318 @@
+{
+  "mdm": {
+    "1": {
+      "name": "Jeppe"
+    },
+    "2": {
+      "name": "Thorkil"
+    },
+    "3": {
+      "name": "Lars"
+    },
+    "4": {
+      "name": "Jeppe"
+    },
+    "5": {
+      "name": "Thorkil"
+    },
+    "6": {
+      "name": "Lars"
+    },
+    "7": {
+      "name": "Jeppe"
+    },
+    "8": {
+      "name": "Thorkil"
+    },
+    "9": {
+      "name": "Lars"
+    },
+    "10": {
+      "name": "Jeppe"
+    },
+    "11": {
+      "name": "Thorkil"
+    },
+    "12": {
+      "name": "Lars"
+    },
+    "13": {
+      "name": "Jeppe"
+    },
+    "14": {
+      "name": "Thorkil"
+    },
+    "15": {
+      "name": "Lars"
+    },
+    "16": {
+      "name": "Jeppe"
+    },
+    "17": {
+      "name": "Thorkil"
+    },
+    "18": {
+      "name": "Lars"
+    },
+    "19": {
+      "name": "Jeppe"
+    },
+    "20": {
+      "name": "Thorkil"
+    },
+    "21": {
+      "name": "Lars"
+    },
+    "22": {
+      "name": "Jeppe"
+    },
+    "23": {
+      "name": "Thorkil"
+    },
+    "24": {
+      "name": "Lars"
+    },
+    "25": {
+      "name": "Jeppe"
+    },
+    "26": {
+      "name": "Thorkil"
+    },
+    "27": {
+      "name": "Lars"
+    },
+    "28": {
+      "name": "Jeppe"
+    },
+    "29": {
+      "name": "Thorkil"
+    },
+    "30": {
+      "name": "Lars"
+    },
+    "31": {
+      "name": "Jeppe"
+    },
+    "32": {
+      "name": "Thorkil"
+    },
+    "33": {
+      "name": "Lars"
+    },
+    "34": {
+      "name": "Jeppe"
+    },
+    "35": {
+      "name": "Thorkil"
+    },
+    "36": {
+      "name": "Lars"
+    },
+    "37": {
+      "name": "Jeppe"
+    },
+    "38": {
+      "name": "Thorkil"
+    },
+    "39": {
+      "name": "Lars"
+    },
+    "40": {
+      "name": "Jeppe"
+    },
+    "41": {
+      "name": "Thorkil"
+    },
+    "42": {
+      "name": "Lars"
+    },
+    "43": {
+      "name": "Jeppe"
+    },
+    "44": {
+      "name": "Thorkil"
+    },
+    "45": {
+      "name": "Lars"
+    },
+    "46": {
+      "name": "Jeppe"
+    },
+    "47": {
+      "name": "Thorkil"
+    },
+    "48": {
+      "name": "Lars"
+    },
+    "49": {
+      "name": "Jeppe"
+    },
+    "50": {
+      "name": "Thorkil"
+    },
+    "51": {
+      "name": "Lars"
+    },
+    "52": {
+      "name": "Jeppe"
+    }
+  },
+  "batch-edi-kloning": {
+    "1": {
+      "name": "Bjarke"
+    },
+    "2": {
+      "name": "Thorkil"
+    },
+    "3": {
+      "name": "Pernille"
+    },
+    "4": {
+      "name": "Bjarke"
+    },
+    "5": {
+      "name": "Thorkil"
+    },
+    "6": {
+      "name": "Pernille"
+    },
+    "7": {
+      "name": "Bjarke"
+    },
+    "8": {
+      "name": "Thorkil"
+    },
+    "9": {
+      "name": "Pernille"
+    },
+    "10": {
+      "name": "Bjarke"
+    },
+    "11": {
+      "name": "Thorkil"
+    },
+    "12": {
+      "name": "Pernille"
+    },
+    "13": {
+      "name": "Bjarke"
+    },
+    "14": {
+      "name": "Thorkil"
+    },
+    "15": {
+      "name": "Pernille"
+    },
+    "16": {
+      "name": "Bjarke"
+    },
+    "17": {
+      "name": "Thorkil"
+    },
+    "18": {
+      "name": "Pernille"
+    },
+    "19": {
+      "name": "Bjarke"
+    },
+    "20": {
+      "name": "Thorkil"
+    },
+    "21": {
+      "name": "Pernille"
+    },
+    "22": {
+      "name": "Bjarke"
+    },
+    "23": {
+      "name": "Thorkil"
+    },
+    "24": {
+      "name": "Pernille"
+    },
+    "25": {
+      "name": "Bjarke"
+    },
+    "26": {
+      "name": "Thorkil"
+    },
+    "27": {
+      "name": "Pernille"
+    },
+    "28": {
+      "name": "Bjarke"
+    },
+    "29": {
+      "name": "Thorkil"
+    },
+    "30": {
+      "name": "Pernille"
+    },
+    "31": {
+      "name": "Bjarke"
+    },
+    "32": {
+      "name": "Thorkil"
+    },
+    "33": {
+      "name": "Pernille"
+    },
+    "34": {
+      "name": "Bjarke"
+    },
+    "35": {
+      "name": "Thorkil"
+    },
+    "36": {
+      "name": "Pernille"
+    },
+    "37": {
+      "name": "Bjarke"
+    },
+    "38": {
+      "name": "Thorkil"
+    },
+    "39": {
+      "name": "Pernille"
+    },
+    "40": {
+      "name": "Bjarke"
+    },
+    "41": {
+      "name": "Thorkil"
+    },
+    "42": {
+      "name": "Pernille"
+    },
+    "43": {
+      "name": "Bjarke"
+    },
+    "44": {
+      "name": "Thorkil"
+    },
+    "45": {
+      "name": "Pernille"
+    },
+    "46": {
+      "name": "Bjarke"
+    },
+    "47": {
+      "name": "Thorkil"
+    },
+    "48": {
+      "name": "Pernille"
+    },
+    "49": {
+      "name": "Bjarke"
+    },
+    "50": {
+      "name": "Thorkil"
+    },
+    "51": {
+      "name": "Pernille"
+    },
+    "52": {
+      "name": "Bjarke"
+    }
+  }
+}
