@@ -23,6 +23,11 @@ function setup() {
     setInterval(checkForRain, 60000);
 }
 
+function windowResized() {
+    console.log('resized!');
+    resizeCanvas(windowWidth, windowHeight);
+}
+
 function draw() {
     clear();
     if (!isEnabled) return;
@@ -52,7 +57,7 @@ function Drop() {
     this.reset = function () {
         this.x = random(width);
         this.y = random(-200, -100);
-        this.yspeed = map(this.z, 0, 5, 4, 10 * (1+(rainIntensity/2)));
+        this.yspeed = map(this.z, 0, 5, 4, 10 * (1 + (rainIntensity / 2)));
     };
 
     this.show = function () {
@@ -65,7 +70,7 @@ function Drop() {
 }
 
 function checkForRain() {
-    fetch('/data/rain.json', {cache: "reload"}).then(res => res.json()).then(rainData => {
+    fetch('/data/rain.json', {cache: 'reload'}).then(res => res.json()).then(rainData => {
         const rainValue = rainData.rainValue;
         console.log('rainValue', rainValue);
         if (rainValue > 0.1) {
