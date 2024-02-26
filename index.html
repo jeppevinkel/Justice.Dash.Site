@@ -180,23 +180,25 @@
                 foodContents.style.float = 'right';
 
                 let containsMeat = false;
-                for (const foodContent of menuItem.foodContents?? []) {
-                    switch (foodContent) {
-                        case 'svinekød':
-                            foodContents.appendChild(createIcon('bacon', '#ff8080'));
-                            containsMeat = true;
-                            break;
-                        case 'fisk':
-                            foodContents.appendChild(createIcon('fish', '#74C0FC'));
-                            containsMeat = true;
-                            break;
-                        case 'kylling':
-                            foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
-                            containsMeat = true;
-                            break;
-                        case 'kød':
-                            containsMeat = true;
-                            break;
+                if (menuItem.foodContents) {
+                    for (const foodContent of menuItem.foodContents) {
+                        switch (foodContent) {
+                            case 'svinekød':
+                                foodContents.appendChild(createIcon('bacon', '#ff8080'));
+                                containsMeat = true;
+                                break;
+                            case 'fisk':
+                                foodContents.appendChild(createIcon('fish', '#74C0FC'));
+                                containsMeat = true;
+                                break;
+                            case 'kylling':
+                                foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
+                                containsMeat = true;
+                                break;
+                            case 'kød':
+                                containsMeat = true;
+                                break;
+                        }
                     }
                 }
                 if (!containsMeat) {
