@@ -180,7 +180,7 @@
                 foodContents.style.float = 'right';
 
                 let containsMeat = false;
-                for (const foodContent of menuItem.foodContents) {
+                for (const foodContent of menuItem.foodContents?? []) {
                     switch (foodContent) {
                         case 'svinekød':
                             foodContents.appendChild(createIcon('bacon', '#ff8080'));
