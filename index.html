@@ -207,8 +207,8 @@
                 if (foodDate.hasSame(DateTime.now(), 'day')) {
                     outerDiv.classList.add('highlight');
 
-                    if(menuItem.image) {
-                        document.body.style.backgroundImage = `url('${menuItem.image}')`;
+                    if(menuItem.image?.url) {
+                        document.body.style.backgroundImage = `url('${menuItem.image.url}')`;
                     }
                 }
 
