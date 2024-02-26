@@ -18,6 +18,10 @@
             padding: 0;
             /*width: 100%;*/
             /*height: 100%;*/
+
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         .flex-container {
@@ -124,7 +128,7 @@
 </div>
 
 <script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.2/build/global/luxon.min.js "></script>
-<!-- <script src="./data/menu.js"></script> -->
+<script src="./data/menu.js"></script>
 <script>
     const DateTime = luxon.DateTime;
     const weatherImageUrl = 'https://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=5000&mode=long&eps=true';
@@ -139,7 +143,7 @@
         currentMenuWeek.classList.add('menu');
         menuContainer.append(currentMenuWeek);
 
-        fetch('/data/menu.json', {cache: 'reload'}).then(res => res.json()).then(menu => {
+        // fetch('/data/menu.json', {cache: 'reload'}).then(res => res.json()).then(menu => {
             let weekNumber = DateTime.fromISO(menu[0].date).weekNumber;
             let totalItems = 0;
             menu.forEach(menuItem => {
@@ -186,6 +190,10 @@
                             foodContents.appendChild(createIcon('fish', '#74C0FC'));
                             containsMeat = true;
                             break;
+                        case 'kylling':
+                            foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
+                            containsMeat = true;
+                            break;
                         case 'kød':
                             containsMeat = true;
                             break;
@@ -198,13 +206,17 @@
 
                 if (foodDate.hasSame(DateTime.now(), 'day')) {
                     outerDiv.classList.add('highlight');
+
+                    if(menuItem.image) {
+                        document.body.style.backgroundImage = `url('${menuItem.image}')`;
+                    }
                 }
 
                 outerDiv.append(title);
                 outerDiv.append(description);
                 currentMenuWeek.append(outerDiv);
             });
-        });
+        // });
     }
 
     updateMenus();
