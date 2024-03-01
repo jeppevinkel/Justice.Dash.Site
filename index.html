@@ -201,6 +201,10 @@
                                 break;
                         }
                     }
+
+                    if (foodContents.childNodes.length === 0 && containsMeat) {
+                        foodContents.appendChild(createIcon('cow', '#ffbf80'));
+                    }
                 }
                 if (!containsMeat) {
                     foodContents.appendChild(createIcon('leaf', '#63E6BE'));
