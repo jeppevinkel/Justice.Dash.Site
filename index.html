@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
     <style>
         html {
@@ -63,7 +64,8 @@
         .menu-item h4 {
             margin: 0;
             color: #333;
-            display: inline-block; /* Make title inline */
+            display: inline-block;
+            /* Make title inline */
             width: 100%;
         }
 
@@ -75,7 +77,8 @@
             background: #f8e9bd;
         }
 
-        .highlight h4, .highlight p {
+        .highlight h4,
+        .highlight p {
             font-size: 1.2em;
             color: #405d27;
         }
@@ -90,255 +93,328 @@
             font-size: 1em;
             color: #405d27;
         }
+
+        #clockContainer {
+            position: relative;
+            margin: auto;
+            height: 20vw;
+            /*to make the height and width responsive*/
+            width: 20vw;
+            background: url(clock.png) no-repeat;
+            background-position: center;
+            /*setting our background image*/
+            background-size: 100%;
+        }
+
+        #hour,
+        #minute,
+        #second {
+            position: absolute;
+            background: black;
+            border-radius: 10px;
+            transform-origin: bottom;
+        }
+
+        #hour {
+            width: 1.8%;
+            height: 25%;
+            top: 25%;
+            left: 48.85%;
+            opacity: 0.8;
+        }
+
+        #minute {
+            width: 1.6%;
+            height: 30%;
+            top: 19%;
+            left: 48.9%;
+            opacity: 0.8;
+        }
+
+        #second {
+            width: 1%;
+            height: 40%;
+            top: 9%;
+            left: 49.25%;
+            opacity: 0.8;
+        }
     </style>
-    <link href="rain.css" rel="stylesheet"/>
-    <meta charset="utf-8"/>
+    <link href="rain.css" rel="stylesheet" />
+    <meta charset="utf-8" />
     <title>Justice Dashboard</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-<div id="rainy"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-<script src="rain.js"></script>
+    <div id="rainy"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="rain.js"></script>
 
-<div class="flex-container">
+    <div class="flex-container">
 
-    <div id="col1" class="column">
-        <div id="menu-container"></div>
-        <div>
-            <div class="menu">
-                <div class="menu-item">
-                    <h4>Overvågning <span class="date" id="surveillance-week-num"></span></h4>
-                    <p>
-                        <b>MDM</b>: <span id="mdm-surveillance"></span>, <b>Batch & EDI</b>: <span
-                            id="bek-surveillance"></span>
-                    </p>
+        <div id="col1" class="column">
+            <div id="menu-container"></div>
+            <div>
+                <div class="menu">
+                    <div class="menu-item">
+                        <h4>Overvågning <span class="date" id="surveillance-week-num"></span></h4>
+                        <p>
+                            <b>MDM</b>: <span id="mdm-surveillance"></span>, <b>Batch & EDI</b>: <span
+                                id="bek-surveillance"></span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="col2" class="column">
-        <div id="countdown-container"></div>
+        <div id="col2" class="column">
+            <div id="countdown-container"></div>
 
-        <div id="weather-container">
-            <img id="weather-image" src="" alt="vejrgraf">
+            <div id="weather-container">
+                <img id="weather-image" src="" alt="vejrgraf">
+            </div>
+
+            <div id="clockContainer">
+                <div id="hour"></div>
+                <div id="minute"></div>
+                <div id="second"></div>
+            </div>
         </div>
+
     </div>
 
-</div>
+    <script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.2/build/global/luxon.min.js "></script>
+    <!-- <script src="./data/menu.js"></script> -->
+    <script>
+        const DateTime = luxon.DateTime;
+        const weatherImageUrl = 'https://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=5000&mode=long&eps=true';
+        const menuContainer = document.getElementById('menu-container');
+        const mdmSurveillance = document.getElementById('mdm-surveillance');
+        const bekSurveillance = document.getElementById('bek-surveillance');
+        const surveillanceWeekNum = document.getElementById('surveillance-week-num');
 
-<script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.2/build/global/luxon.min.js "></script>
-<!-- <script src="./data/menu.js"></script> -->
-<script>
-    const DateTime = luxon.DateTime;
-    const weatherImageUrl = 'https://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=5000&mode=long&eps=true';
-    const menuContainer = document.getElementById('menu-container');
-    const mdmSurveillance = document.getElementById('mdm-surveillance');
-    const bekSurveillance = document.getElementById('bek-surveillance');
-    const surveillanceWeekNum = document.getElementById('surveillance-week-num');
+        function updateMenus() {
+            menuContainer.innerHTML = '';
+            let currentMenuWeek = document.createElement('div');
+            currentMenuWeek.classList.add('menu');
+            menuContainer.append(currentMenuWeek);
 
-    function updateMenus() {
-        menuContainer.innerHTML = '';
-        let currentMenuWeek = document.createElement('div');
-        currentMenuWeek.classList.add('menu');
-        menuContainer.append(currentMenuWeek);
+            fetch('/data/menu.json', { cache: 'reload' }).then(res => res.json()).then(menu => {
+                let weekNumber = DateTime.fromISO(menu[0].date).weekNumber;
+                let totalItems = 0;
+                menu.forEach(menuItem => {
+                    const foodDate = DateTime.fromISO(menuItem.date).setLocale('da-dk');
+                    if (foodDate.startOf('day') < DateTime.now().startOf('day')) return;
+                    if (++totalItems > 5) return;
 
-        fetch('/data/menu.json', {cache: 'reload'}).then(res => res.json()).then(menu => {
-            let weekNumber = DateTime.fromISO(menu[0].date).weekNumber;
-            let totalItems = 0;
-            menu.forEach(menuItem => {
-                const foodDate = DateTime.fromISO(menuItem.date).setLocale('da-dk');
-                if (foodDate.startOf('day') < DateTime.now().startOf('day')) return;
-                if (++totalItems > 5) return;
+                    if (foodDate.weekNumber !== weekNumber) {
+                        currentMenuWeek = document.createElement('div');
+                        currentMenuWeek.classList.add('menu');
+                        menuContainer.append(currentMenuWeek);
+                        weekNumber = foodDate.weekNumber;
+                    }
 
-                if (foodDate.weekNumber !== weekNumber) {
-                    currentMenuWeek = document.createElement('div');
-                    currentMenuWeek.classList.add('menu');
-                    menuContainer.append(currentMenuWeek);
-                    weekNumber = foodDate.weekNumber;
-                }
+                    const outerDiv = document.createElement('div');
+                    outerDiv.classList.add('menu-item');
 
-                const outerDiv = document.createElement('div');
-                outerDiv.classList.add('menu-item');
+                    const titleCapitalized =
+                        menuItem.day.charAt(0).toUpperCase()
+                        + menuItem.day.slice(1);
 
-                const titleCapitalized =
-                    menuItem.day.charAt(0).toUpperCase()
-                    + menuItem.day.slice(1);
+                    const title = document.createElement('h4');
+                    title.innerHTML = titleCapitalized + ' ';
 
-                const title = document.createElement('h4');
-                title.innerHTML = titleCapitalized + ' ';
+                    const description = document.createElement('p');
+                    description.innerHTML = menuItem.foodName;
 
-                const description = document.createElement('p');
-                description.innerHTML = menuItem.foodName;
+                    const date = document.createElement('span');
+                    date.classList.add('date');
+                    date.innerText = foodDate.toFormat('dd/MM');
+                    title.append(date);
 
-                const date = document.createElement('span');
-                date.classList.add('date');
-                date.innerText = foodDate.toFormat('dd/MM');
-                title.append(date);
+                    const foodContents = document.createElement('span')
+                    foodContents.style.float = 'right';
 
-                const foodContents = document.createElement('span')
-                foodContents.style.float = 'right';
+                    let containsMeat = false;
+                    if (menuItem.foodContents) {
+                        for (const foodContent of menuItem.foodContents) {
+                            switch (foodContent) {
+                                case 'svinekød':
+                                    foodContents.appendChild(createIcon('bacon', '#ff8080'));
+                                    containsMeat = true;
+                                    break;
+                                case 'fisk':
+                                    foodContents.appendChild(createIcon('fish', '#74C0FC'));
+                                    containsMeat = true;
+                                    break;
+                                case 'kylling':
+                                    foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
+                                    containsMeat = true;
+                                    break;
+                                case 'kød':
+                                    containsMeat = true;
+                                    break;
+                            }
+                        }
 
-                let containsMeat = false;
-                if (menuItem.foodContents) {
-                    for (const foodContent of menuItem.foodContents) {
-                        switch (foodContent) {
-                            case 'svinekød':
-                                foodContents.appendChild(createIcon('bacon', '#ff8080'));
-                                containsMeat = true;
-                                break;
-                            case 'fisk':
-                                foodContents.appendChild(createIcon('fish', '#74C0FC'));
-                                containsMeat = true;
-                                break;
-                            case 'kylling':
-                                foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
-                                containsMeat = true;
-                                break;
-                            case 'kød':
-                                containsMeat = true;
-                                break;
+                        if (foodContents.childNodes.length === 0 && containsMeat) {
+                            foodContents.appendChild(createIcon('cow', '#ffbf80'));
+                        }
+                    }
+                    if (!containsMeat) {
+                        foodContents.appendChild(createIcon('leaf', '#63E6BE'));
+                    }
+                    title.append(foodContents);
+
+                    if (foodDate.hasSame(DateTime.now(), 'day')) {
+                        outerDiv.classList.add('highlight');
+
+                        if (menuItem.image?.url) {
+                            document.body.style.backgroundImage = `url('${menuItem.image.url}')`;
                         }
                     }
 
-                    if (foodContents.childNodes.length === 0 && containsMeat) {
-                        foodContents.appendChild(createIcon('cow', '#ffbf80'));
-                    }
-                }
-                if (!containsMeat) {
-                    foodContents.appendChild(createIcon('leaf', '#63E6BE'));
-                }
-                title.append(foodContents);
-
-                if (foodDate.hasSame(DateTime.now(), 'day')) {
-                    outerDiv.classList.add('highlight');
-
-                    if(menuItem.image?.url) {
-                        document.body.style.backgroundImage = `url('${menuItem.image.url}')`;
-                    }
-                }
-
-                outerDiv.append(title);
-                outerDiv.append(description);
-                currentMenuWeek.append(outerDiv);
+                    outerDiv.append(title);
+                    outerDiv.append(description);
+                    currentMenuWeek.append(outerDiv);
+                });
             });
+        }
+
+        updateMenus();
+        setInterval(updateMenus, 28800000);
+
+        let hour = document.getElementById('hour');
+        let minute = document.getElementById('minute');
+        let second = document.getElementById('second');
+
+        setInterval(() => {
+            d = new Date(); //object of date()
+            hr = d.getHours();
+            min = d.getMinutes();
+            sec = d.getSeconds();
+            hr_rotation = 30 * hr + min / 2; //converting current time
+            min_rotation = 6 * min;
+            sec_rotation = 6 * sec;
+
+            hour.style.transform = `rotate(${hr_rotation}deg)`;
+            minute.style.transform = `rotate(${min_rotation}deg)`;
+            second.style.transform = `rotate(${sec_rotation}deg)`;
+        }, 1000);
+
+        // setInterval(updateMenus, 4000);
+
+        function countdown() {
+            const now = DateTime.now().setLocale('da-dk');
+            let thursday;
+
+            if (now.weekday < 4) {
+                // Before Thursday, get the same week's Thursday
+                thursday = now.set({ weekday: 4, hour: 9, minute: 45, second: 0 });
+            } else if (now.weekday === 4 && now < now.set({ hour: 12, minute: 0, second: 0 })) {
+                // It's Thursday but before 9.45, no need to change the date.
+                thursday = now.set({ hour: 9, minute: 45, second: 0 });
+            } else {
+                // After Thursday or past 12.00, get next week's Thursday.
+                thursday = now.plus({ weeks: 1 }).set({ weekday: 4, hour: 9, minute: 45, second: 0 });
+            }
+
+            const diff = thursday.diff(now, ['days', 'hours', 'minutes', 'seconds']);
+
+            let countdownContainer = document.getElementById('countdown-container');
+            let title = document.getElementById('countdown-title');
+            let description = document.getElementById('countdown-description');
+            if (!title) {
+                const countdown = document.createElement('div');
+                countdown.classList.add('menu');
+                countdown.id = 'countdown';
+
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('menu-item');
+
+                title = document.createElement('h4');
+                title.innerHTML = 'Brunner';
+                title.id = 'countdown-title';
+
+                description = document.createElement('p');
+                description.id = 'countdown-description';
+
+                wrapper.append(title, description);
+                countdown.append(wrapper);
+
+                countdownContainer.append(countdown);
+            }
+
+            if (diff.toMillis() < 0) {
+                description.innerText = 'Brunneren er serveret!';
+            } else {
+                let textToShow = '';
+
+                if (diff.days > 0) {
+                    textToShow += `${Math.floor(diff.days)} dage, `;
+                }
+                if (diff.hours > 0 || diff.days > 0) {
+                    textToShow += `${Math.floor(diff.hours)} timer, `;
+                }
+                if (diff.minutes > 0 || diff.days > 0 || diff.hours > 0) {
+                    textToShow += `${Math.floor(diff.minutes)} minutter, `;
+                }
+                textToShow += `${Math.floor(diff.seconds)} sekunder!`;
+                description.innerText = textToShow;
+            }
+        }
+
+        // Call countdown function initially and then every second
+        countdown();
+        setInterval(countdown, 1000);
+
+        const weatherImage = document.getElementById('weather-image');
+
+        function updateWeatherImage() {
+            console.log('Updating weather...');
+            weatherImage.src = `${weatherImageUrl}&t=${Math.floor(new Date().getTime() / 1000)}`;
+
+            const now = DateTime.now().setLocale('da-dk');
+            const nextHour = now.plus({ hours: 1 }).set({ minute: 5, second: 0 });
+            const diffInMillis = nextHour.diff(now, 'milliseconds');
+
+            setTimeout(updateWeatherImage, diffInMillis.milliseconds);
+        }
+
+        updateWeatherImage();
+        // setInterval(updateWeatherImage, 1800000);
+
+        let surveillanceData = {};
+
+        function updateSurveillance() {
+            const currentWeek = DateTime.now().weekNumber;
+            mdmSurveillance.innerText = surveillanceData.mdm[currentWeek].name;
+            bekSurveillance.innerText = surveillanceData['batch-edi-kloning'][currentWeek].name;
+            surveillanceWeekNum.innerText = `uge ${currentWeek}`;
+        }
+
+        fetch('/static/surveillance.json', { cache: 'reload' }).then(res => res.json()).then(data => {
+            surveillanceData = data;
+
+            updateSurveillance();
+            setInterval(updateSurveillance, 7200000);
         });
-    }
 
-    updateMenus();
-    setInterval(updateMenus, 28800000);
+        function createIcon(type, color = undefined) {
+            const icon = document.createElement('i');
+            icon.classList.add('fa-solid');
+            icon.classList.add(`fa-${type}`);
+            icon.style.marginLeft = '4px';
 
-    // setInterval(updateMenus, 4000);
-
-    function countdown() {
-        const now = DateTime.now().setLocale('da-dk');
-        let thursday;
-
-        if (now.weekday < 4) {
-            // Before Thursday, get the same week's Thursday
-            thursday = now.set({weekday: 4, hour: 9, minute: 45, second: 0});
-        } else if (now.weekday === 4 && now < now.set({hour: 12, minute: 0, second: 0})) {
-            // It's Thursday but before 9.45, no need to change the date.
-            thursday = now.set({hour: 9, minute: 45, second: 0});
-        } else {
-            // After Thursday or past 12.00, get next week's Thursday.
-            thursday = now.plus({weeks: 1}).set({weekday: 4, hour: 9, minute: 45, second: 0});
-        }
-
-        const diff = thursday.diff(now, ['days', 'hours', 'minutes', 'seconds']);
-
-        let countdownContainer = document.getElementById('countdown-container');
-        let title = document.getElementById('countdown-title');
-        let description = document.getElementById('countdown-description');
-        if (!title) {
-            const countdown = document.createElement('div');
-            countdown.classList.add('menu');
-            countdown.id = 'countdown';
-
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('menu-item');
-
-            title = document.createElement('h4');
-            title.innerHTML = 'Brunner';
-            title.id = 'countdown-title';
-
-            description = document.createElement('p');
-            description.id = 'countdown-description';
-
-            wrapper.append(title, description);
-            countdown.append(wrapper);
-
-            countdownContainer.append(countdown);
-        }
-
-        if (diff.toMillis() < 0) {
-            description.innerText = 'Brunneren er serveret!';
-        } else {
-            let textToShow = '';
-
-            if (diff.days > 0) {
-                textToShow += `${Math.floor(diff.days)} dage, `;
+            if (color) {
+                icon.style.color = color;
             }
-            if (diff.hours > 0 || diff.days > 0) {
-                textToShow += `${Math.floor(diff.hours)} timer, `;
-            }
-            if (diff.minutes > 0 || diff.days > 0 || diff.hours > 0) {
-                textToShow += `${Math.floor(diff.minutes)} minutter, `;
-            }
-            textToShow += `${Math.floor(diff.seconds)} sekunder!`;
-            description.innerText = textToShow;
+
+            return icon;
         }
-    }
-
-    // Call countdown function initially and then every second
-    countdown();
-    setInterval(countdown, 1000);
-
-    const weatherImage = document.getElementById('weather-image');
-
-    function updateWeatherImage() {
-        console.log('Updating weather...');
-        weatherImage.src = `${weatherImageUrl}&t=${Math.floor(new Date().getTime() / 1000)}`;
-
-        const now = DateTime.now().setLocale('da-dk');
-        const nextHour = now.plus({hours: 1}).set({minute: 5, second: 0});
-        const diffInMillis = nextHour.diff(now, 'milliseconds');
-
-        setTimeout(updateWeatherImage, diffInMillis.milliseconds);
-    }
-
-    updateWeatherImage();
-    // setInterval(updateWeatherImage, 1800000);
-
-    let surveillanceData = {};
-
-    function updateSurveillance() {
-        const currentWeek = DateTime.now().weekNumber;
-        mdmSurveillance.innerText = surveillanceData.mdm[currentWeek].name;
-        bekSurveillance.innerText = surveillanceData['batch-edi-kloning'][currentWeek].name;
-        surveillanceWeekNum.innerText = `uge ${currentWeek}`;
-    }
-
-    fetch('/static/surveillance.json', {cache: 'reload'}).then(res => res.json()).then(data => {
-        surveillanceData = data;
-
-        updateSurveillance();
-        setInterval(updateSurveillance, 7200000);
-    });
-
-    function createIcon(type, color = undefined) {
-        const icon = document.createElement('i');
-        icon.classList.add('fa-solid');
-        icon.classList.add(`fa-${type}`);
-        icon.style.marginLeft = '4px';
-
-        if (color) {
-            icon.style.color = color;
-        }
-
-        return icon;
-    }
-</script>
+    </script>
 </body>
+
 </html>
