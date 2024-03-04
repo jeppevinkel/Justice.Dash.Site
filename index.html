@@ -238,24 +238,27 @@
                     foodContents.style.float = 'right';
 
                     let containsMeat = false;
+                    let showMeat = true;
                     if (menuItem.foodContents) {
                         for (const foodContent of menuItem.foodContents) {
                             switch (foodContent) {
                                 case 'svinekød':
                                     foodContents.appendChild(createIcon('bacon', '#ff8080'));
                                     containsMeat = true;
+                                    showMeat = false;
                                     break;
                                 case 'fisk':
                                     foodContents.appendChild(createIcon('fish', '#74C0FC'));
                                     containsMeat = true;
+                                    showMeat = false;
                                     break;
                                 case 'kylling':
                                     foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
                                     containsMeat = true;
+                                    showMeat = false;
                                     break;
                                 case 'laktose':
                                     foodContents.appendChild(createIcon('cheese', '#FFD43B'));
-                                    containsMeat = true;
                                     break;
                                 case 'kød':
                                     containsMeat = true;
@@ -263,7 +266,7 @@
                             }
                         }
 
-                        if (foodContents.childNodes.length === 0 && containsMeat) {
+                        if (containsMeat && showMeat) {
                             foodContents.appendChild(createIcon('cow', '#ffbf80'));
                         }
                     }
