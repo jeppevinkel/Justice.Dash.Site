@@ -277,7 +277,7 @@
                     }
                     title.append(foodContents);
 
-                    if (foodDate.hasSame(DateTime.now(), 'day')) {
+                    if (totalItems === 1) {
                         outerDiv.classList.add('highlight');
 
                         if (menuItem.image?.url) {
