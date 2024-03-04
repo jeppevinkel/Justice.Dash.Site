@@ -206,7 +206,7 @@
                 let totalItems = 0;
                 menu.forEach(menuItem => {
                     const foodDate = DateTime.fromISO(menuItem.date).setLocale('da-dk');
-                    if (foodDate.startOf('day') < DateTime.now().startOf('day')) return;
+                    if (foodDate.startOf('day') < DateTime.now().plus({hours: 11}).startOf('day')) return;
                     if (++totalItems > 5) return;
 
                     if (foodDate.weekNumber !== weekNumber) {
