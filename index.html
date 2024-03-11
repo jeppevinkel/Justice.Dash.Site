@@ -95,11 +95,14 @@
         }
 
         #clockContainer {
-            position: relative;
+            position: absolute;
+            z-index: -1;
+            top: 10px;
+            right: 10px;
             margin: auto;
-            height: 6vw;
+            height: 8vw;
             /*to make the height and width responsive*/
-            width: 6vw;
+            width: 8vw;
             background: url(clock.png) no-repeat;
             background-position: center;
             /*setting our background image*/
@@ -153,8 +156,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <script src="rain.js"></script>
 
-    <div class="flex-container">
+    <div id="clockContainer">
+        <div id="hour"></div>
+        <div id="minute"></div>
+        <div id="second"></div>
+    </div>
 
+    <div class="flex-container">
         <div id="col1" class="column">
             <div id="menu-container"></div>
             <div>
@@ -174,12 +182,6 @@
 
             <div id="weather-container">
                 <img id="weather-image" src="" alt="vejrgraf">
-            </div>
-
-            <div id="clockContainer">
-                <div id="hour"></div>
-                <div id="minute"></div>
-                <div id="second"></div>
             </div>
         </div>
 
@@ -270,6 +272,7 @@
                                     containsMeat = true;
                                     showMeat = false;
                                     break;
+                                case 'fjerdkræ':
                                 case 'kylling':
                                     foodContents.appendChild(createIcon('drumstick-bite', '#FFD43B'));
                                     containsMeat = true;
@@ -293,7 +296,7 @@
                     }
                     title.append(foodContents);
 
-                    if (foodDate.hasSame(DateTime.now(), 'day')) {
+                    if (totalItems === 1) {
                         outerDiv.classList.add('highlight');
 
                         if (menuItem.image?.url) {
