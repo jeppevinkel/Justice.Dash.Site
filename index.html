@@ -402,7 +402,7 @@
 
         function updateWeatherImage() {
             console.log('Updating weather...');
-            weatherImage.src = `${weatherImageUrl}&t=${Math.floor(new Date().getTime() / 1000)}`;
+            weatherImage.src = `${weatherImageUrl}?t=${Math.floor(new Date().getTime() / 1000)}`;
 
             const now = DateTime.now().setLocale('da-dk');
             const nextHour = now.plus({ hours: 1 }).set({ minute: 5, second: 0 });
