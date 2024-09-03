@@ -191,11 +191,29 @@
     <!-- <script src="./data/menu.js"></script> -->
     <script>
         const DateTime = luxon.DateTime;
+        const Duration = luxon.Duration;
         const weatherImageUrl = 'https://www.yr.no/nb/innhold/2-2615876/meteogram.svg';
         const menuContainer = document.getElementById('menu-container');
         const mdmSurveillance = document.getElementById('mdm-surveillance');
         const bekSurveillance = document.getElementById('bek-surveillance');
         const surveillanceWeekNum = document.getElementById('surveillance-week-num');
+
+        const timeToAfternoon = DateTime.fromISO('13:05') - DateTime.now();
+        const timeToMidnight = (DateTime.fromISO('24:00') - DateTime.now()) + 60000;
+
+        if (timeToAfternoon > 0) {
+            console.log('Reloading in the afternoon after', timeToAfternoon, 'milliseconds');
+            setTimeout(() => {
+                location.reload();
+            }, timeToAfternoon);
+        }
+
+        if (timeToMidnight > 0) {
+            console.log('Reloading tomorrow after', timeToMidnight, 'milliseconds');
+            setTimeout(() => {
+                location.reload();
+            }, timeToMidnight + 60000);
+        }
 
         function updateMenus() {
             menuContainer.innerHTML = '';
